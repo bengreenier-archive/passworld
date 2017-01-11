@@ -1,0 +1,69 @@
+{
+   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+   "contentVersion": "0.1.0.0",
+   "parameters": {
+       "displayName": {
+           "type": "string",
+           "metadata": {
+               "description": "the name of your application"
+           }
+       }
+   },
+   "variables": {},
+   "resources": [
+       {
+           "apiVersion": "2015-08-01",
+           "name": "[parameters('displayName')]",
+           "type": "Microsoft.Web/serverfarms",
+           "location": "[resourceGroup().location]",
+           "tags": {
+               "displayName": "[parameters('displayName')]"
+            },
+            "sku": {
+                "name": "S1",
+                "tier": "Standard",
+                "family": "S",
+                "capacity": 1
+            },
+            "properties": {
+                "name": "[parameters('displayName')]",
+                "numberOfWorkers": 1
+            }
+        },
+        {
+            "apiVersion": "2015-08-01",
+            "type": "Microsoft.Web/sites",
+            "name": "[parameters('displayName')]",
+            "location": "[resourceGroup().location]",
+            "tags": {},
+            "dependsOn": [
+                "[concat('Microsoft.Web/serverfarms/', parameters('hostingPlanName'))]"
+            ],
+            "properties": {
+                "name": "[parameters('displayName')]",
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms/', parameters('displayName'))]"
+            },
+            "resources": [
+                {
+                    "apiVersion": "2015-08-01",
+                    "type": "extensions",
+                    "name": "MSDeploy",
+                    "dependsOn": [
+                        "[concat('Microsoft.Web/sites/', parameters('displayName'))]"
+                    ],
+                    "properties": {
+                        "setParameters": {
+                            "Application Path": "[parameters('displayName')]"
+                        }
+                    }
+                }
+            ]
+        }
+   ],
+   "outputs": {
+       "webAppUri": {
+           "type": "string",
+           "value": "[concat('http://',reference(resourceId('Microsoft.Web/sites', parameters('displayName'))).hostNames[0])]"
+       }
+   }
+}
