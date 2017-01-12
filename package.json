@@ -1,0 +1,35 @@
+{
+  "name": "passworld",
+  "version": "0.1.0",
+  "description": "share-able password vault powered by microsoft tech",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "mocha",
+    "setup": "node setup.js"
+  },
+  "keywords": [
+    "password",
+    "vault",
+    "microsoft",
+    "azure"
+  ],
+  "author": "Ben Greenier",
+  "license": "MIT",
+  "dependencies": {
+    "azure-keyvault": "^1.0.0",
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.0",
+    "express-session": "^1.14.2",
+    "passport": "^0.3.2",
+    "passport-azure-ad": "^3.0.4"
+  },
+  "devDependencies": {
+    "mocha": "^3.2.0",
+    "supertest": "^2.0.1"
+  },
+  "engines": {
+    "node": "^6.4.0"
+  }
+}
