@@ -1,11 +1,15 @@
 $(document).ready(function () {
     new Clipboard('.copy-clipboard')
 
-    $.get('/passwords', function (data) {
+    $.get('/passwords').then(function (data) {
         for (var i = 0 ; i < data.length ; i++) {
             // TODO: wtf? why is this parse not done
             addPassword(JSON.parse(data[i]))
         }
+    }, function (err) {
+        $("#error").slideDown()
+        $("#error-code").text(JSON.stringify(err))
+        console.error(err)
     })
 
     $("#addSubmit").click(function () {
