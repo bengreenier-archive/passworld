@@ -6,7 +6,7 @@ A share-able password vault powered by microsoft tech
 
 If you want to set this up for yourself, here's how:
 
-+ [deploy this code](https://deploy.azure.com) to a new `web app`, inside a `resource group`
++ [deploy this code](https://azuredeploy.net) to a new `web app`, inside a `resource group`
 + visit [portal.azure.com](https://portal.azure.com)
 + create a new `key vault`, inside the `resource group` that was created above
 + navigate to AAD, then App Registrations
