@@ -11,6 +11,7 @@ If you want to set this up for yourself, here's how:
 + create a new `key vault`, inside the `resource group` that was created above
 + navigate to AAD, then App Registrations
 + create an add app (of type web app) - use `https://<yourAzureWebAppName>.azurewebsites.net/auth/callback` for the `sign on url`
++ (optional) register a `replyUrl` for the aad app, allowing return to `localhost:3001/auth/callback` for development
 + edit the manifest of your aad app to include the following under `requiredResourceAccess` as a new entry in the array: ```{
       "resourceAppId": "cfa8b339-82a2-471a-a3c9-0fc0be7a4093",
       "resourceAccess": [
@@ -20,7 +21,6 @@ If you want to set this up for yourself, here's how:
         }
       ]
     }``` this allows your application to issue tokens for keyvault on behalf of users
-+ (optional) register a `replyUrl` for the aad app, allowing return to `localhost:3001/auth/callback` for development
 + add a `key` that your web app will use to authenticate, and copy it's value
 + navigate to the `application settings` for your web app, and paste this value under the key `CLIENT_SECRET`
 + repeat the process, copying the aad app `application id`, and paste it under the key `CLIENT_ID`
