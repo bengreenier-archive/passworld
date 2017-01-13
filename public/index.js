@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    new Clipboard('.copy-clipboard')
+
     $.get('/passwords', function (data) {
         for (var i = 0 ; i < data.length ; i++) {
             // TODO: wtf? why is this parse not done
@@ -31,7 +33,8 @@ $(document).ready(function () {
             })
             addPassword(model)
         }, function (err) {
-            // TODO: show notification that this failed
+            $("#error").slideDown()
+            $("#error-code").text(JSON.stringify(err))
             console.error(err)
         })
     })
@@ -77,12 +80,16 @@ function addPassword(data) {
         var secretName = $(this).attr("data-name")
         
         $("#viewModalLabel").text(secretName)
-        $.get('/passwords/' + secretName, function (data) {
+        $.get('/passwords/' + secretName).then(function (data) {
             var data = JSON.parse(data)
 
-            // TODO: use moment to make expiration pretty
-            $("#viewModalBody").html("<p>" + data.value + "</p><p>" + data.expiration + "</p>")
+            $("#viewPassword").val(data.value)
+            $("#viewExpiration").text(moment(data.expiration).fromNow())
             $("#viewModal").modal('show')
+        }, function (err) {
+            $("#error").slideDown()
+            $("#error-code").text(JSON.stringify(err))
+            console.error(err)
         })
     })
 
